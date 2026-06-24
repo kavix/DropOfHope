@@ -83,7 +83,6 @@ $stats = [
 - Sets session variables on successful login: `user_id`, `user_name`, `user_type`, `blood_type`
 - Shows error message for invalid credentials
 - Displays demo account credentials for testing
-
 **Key Logic:**
 ```php
 $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");

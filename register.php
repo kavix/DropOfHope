@@ -18,13 +18,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $lastDonation = $_POST['last_donation_date'] ?? null;
     
     // Validation
-    if (empty($fullName)) $errors[] = 'Full name is required.';
-    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Valid email is required.';
-    if (empty($phone)) $errors[] = 'Phone number is required.';
-    if (strlen($password) < 6) $errors[] = 'Password must be at least 6 characters.';
-    if ($password !== $confirmPassword) $errors[] = 'Passwords do not match.';
-    if (empty($bloodType)) $errors[] = 'Blood type is required.';
-    if (empty($location)) $errors[] = 'Location is required.';
+   if (empty($fullName)) {
+    $errors[] = 'Full name is required.';
+}
+
+if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $errors[] = 'Valid email is required.';
+}
+    
+if (empty($phone)) {
+    $errors[] = 'Phone number is required.';
+} elseif (!preg_match('/^[0-9]{10}$/', $phone)) {
+    $errors[] = 'Phone number must contain exactly 10 digits.';
+}
+
+if (empty($password)) {
+    $errors[] = 'Password is required.';
+} elseif (strlen($password) < 6) {
+    $errors[] = 'Password must be at least 6 characters.';
+}
+
+if ($password !== $confirmPassword) {
+    $errors[] = 'Passwords do not match.';
+}
+
+if (empty($bloodType)) {
+    $errors[] = 'Blood type is required.';
+}
+
+if (empty($location)) {
+    $errors[] = 'Location is required.';
+}
     
     // Check if email exists
     if (empty($errors)) {
