@@ -53,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
         $stmt->execute([$full_name, $email, $phone, $location, empty($lastDonation) ? null : $lastDonation, $userId]);
         
         
+    
         $_SESSION['user_name'] = $full_name;
         
         showAlert('Profile updated successfully!', 'success');
