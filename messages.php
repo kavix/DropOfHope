@@ -7,13 +7,13 @@ if (!isLoggedIn()) {
 
 $userId = $_SESSION['user_id'];
 
-// Mark message as read
+
 if (isset($_GET['read']) && is_numeric($_GET['read'])) {
     $stmt = $pdo->prepare("UPDATE messages SET is_read = 1 WHERE id = ? AND receiver_id = ?");
     $stmt->execute([$_GET['read'], $userId]);
 }
 
-// Get received messages with sender info
+
 $receivedMessages = $pdo->prepare("
     SELECT m.*, u.full_name as sender_name, u.blood_type as sender_blood_type, u.phone as sender_phone
     FROM messages m
@@ -24,7 +24,7 @@ $receivedMessages = $pdo->prepare("
 $receivedMessages->execute([$userId]);
 $received = $receivedMessages->fetchAll();
 
-// Get sent messages with receiver info
+
 $sentMessages = $pdo->prepare("
     SELECT m.*, u.full_name as receiver_name, u.blood_type as receiver_blood_type, u.phone as receiver_phone
     FROM messages m

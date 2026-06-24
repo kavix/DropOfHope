@@ -19,7 +19,7 @@ if (!$request) {
     redirect('view_requests.php');
 }
 
-// Handle message submission
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_message'])) {
     $message = trim($_POST['message'] ?? '');
     $revealPhone = isset($_POST['reveal_phone']) ? 1 : 0;
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_message'])) {
     if (empty($message)) {
         showAlert('Please enter a message.', 'error');
     } else {
-        // Resolve requester's user account (by email if available)
+        
         $receiverId = null;
         if (!empty($request['requester_email'])) {
             $lookupStmt = $pdo->prepare("SELECT id FROM users WHERE email = ? LIMIT 1");

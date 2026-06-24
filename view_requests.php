@@ -1,7 +1,7 @@
 <?php
 require_once 'includes/config.php';
 
-// Handle new request submission
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['post_request'])) {
     $name = trim($_POST['requester_name'] ?? '');
     $phone = trim($_POST['requester_phone'] ?? '');
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['post_request'])) {
     }
 }
 
-// Get all active requests
+
 $requests = $pdo->query("
     SELECT * FROM emergency_requests 
     WHERE status = 'active' 
