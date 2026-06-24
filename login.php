@@ -72,7 +72,11 @@ require_once 'includes/header.php';
             </button>
         </form>
         
-        <div class="text-center mt-2">
+        <div class="text-center" style="margin-top: 15px;">
+            <a href="forgot_password.php" style="color: var(--primary); font-weight: 600;">Forgot Password?</a>
+        </div>
+        
+        <div class="text-center mt-2" style="margin-top: 10px;">
             <p>Don't have an account? <a href="register.php" style="color: var(--primary); font-weight: 600;">Register as a Donor</a></p>
         </div>
         
