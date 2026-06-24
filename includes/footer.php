@@ -22,14 +22,14 @@
             </div>
             <div class="footer-section">
                 <h4>Contact</h4>
-                <p><i class="fas fa-envelope"></i> info@lifelink.lk</p>
-                <p><i class="fas fa-phone"></i> +94 11 234 5678</p>
+                <p><i class="fas fa-envelope"></i> kavix@yahoo.com</p>
+                <p><i class="fas fa-phone"></i> +94 72 66 77 555</p>
                 <p><i class="fas fa-map-marker-alt"></i> University of Kelaniya, Sri Lanka</p>
             </div>
         </div>
         <div class="footer-bottom">
             <p>&copy; <?php echo date('Y'); ?> LifeLink - Blood Donation Network. All rights reserved.</p>
-            <p>Department of Statistics & Computer Science, University of Kelaniya</p>
+            <p>ECS, University of Kelaniya</p>
         </div>
     </footer>
     

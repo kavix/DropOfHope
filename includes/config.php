@@ -2,10 +2,14 @@
 // LifeLink - Database Configuration
 session_start();
 
-$host = 'localhost';
-$dbname = 'lifelink_db';
-$username = 'root';
-$password = '';
+// Read credentials from environment variables (set in .env or server config).
+// Fallback to local development defaults so cloning the repo "just works".
+$host     = getenv('DB_HOST') ?: 'localhost';
+$dbname   = getenv('DB_NAME') ?: 'lifelink_db';
+$username = getenv('DB_USER') ?: 'root';
+$password = getenv('DB_PASS') ?: '';
+
+$isProduction = (getenv('APP_ENV') === 'production');
 
 // Create connection
 try {
@@ -13,7 +17,12 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    die("Database connection failed: " . $e->getMessage());
+    // Do not expose connection details on a live server
+    if ($isProduction) {
+        die("Database connection failed. Please contact the administrator.");
+    } else {
+        die("Database connection failed: " . $e->getMessage());
+    }
 }
 
 // Helper functions

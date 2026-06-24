@@ -72,15 +72,14 @@ require_once 'includes/header.php';
             </button>
         </form>
         
-        <div class="text-center mt-2">
-            <p>Don't have an account? <a href="register.php" style="color: var(--primary); font-weight: 600;">Register as a Donor</a></p>
+        <div class="text-center" style="margin-top: 15px;">
+            <a href="forgot_password.php" style="color: var(--primary); font-weight: 600;">Forgot Password?</a>
         </div>
         
-        <div style="margin-top: 20px; padding: 15px; background: var(--light); border-radius: var(--radius); font-size: 0.9rem;">
-            <p style="margin-bottom: 8px;"><strong>Demo Accounts:</strong></p>
-            <p style="margin-bottom: 5px;">Admin: <code>admin@lifelink.lk</code> / <code>admin123</code></p>
-            <p>Donor: <code>kasun@email.com</code> / <code>password</code></p>
+        <div class="text-center mt-2" style="margin-top: 10px;">
+            <p>Don't have an account? <a href="register.php" style="color: var(--primary); font-weight: 600;">Register as a Donor</a></p>
         </div>
+    
     </div>
 </div>
 

@@ -27,12 +27,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_message'])) {
     if (empty($message)) {
         showAlert('Please enter a message.', 'error');
     } else {
-        
+        // Resolve requester's user account (by email if available)
+        $receiverId = null;
+        if (!empty($request['requester_email'])) {
+            $lookupStmt = $pdo->prepare("SELECT id FROM users WHERE email = ? LIMIT 1");
+            $lookupStmt->execute([$request['requester_email']]);
+            $requesterUser = $lookupStmt->fetch();
+            if ($requesterUser) {
+                $receiverId = $requesterUser['id'];
+            }
+        }
+
         $stmt = $pdo->prepare("
             INSERT INTO messages (sender_id, receiver_id, request_id, message, sender_phone_revealed, is_phone_revealed)
-            VALUES (?, 1, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?)
         ");
-        $stmt->execute([$userId, $requestId, $message, $revealPhone, $revealPhone]);
+        $stmt->execute([$userId, $receiverId, $requestId, $message, $revealPhone, $revealPhone]);
         
         showAlert('Your response has been sent! The requester will contact you soon.', 'success');
         redirect('view_requests.php');
