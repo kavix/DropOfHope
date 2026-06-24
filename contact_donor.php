@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_message'])) {
     if (empty($message)) {
         showAlert('Please enter a message.', 'error');
     } else {
-        // කලින් මේ දෙන්නා චැට් කරලා තියෙනවද කියලා බලනවා Phone disclosure එක අප්ඩේට් කරන්න
+        
         $check = $pdo->prepare("SELECT receiver_phone_revealed FROM messages WHERE (sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?) LIMIT 1");
         $check->execute([$userId, $donorId, $donorId, $userId]);
         $existing = $check->fetch();
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_message'])) {
         ");
         $stmt->execute([$userId, $donorId, $message, $revealPhone, $receiverPhoneRevealed, $isPhoneRevealed]);
 
-        // දෙන්නම එකඟ නම් හැම පරණ මැසේජ් එකකම ෆෝන් නම්බර් එක පෙන්වන්න සලස්වනවා
+     
         if ($isPhoneRevealed) {
             $update = $pdo->prepare("UPDATE messages SET is_phone_revealed = 1, receiver_phone_revealed = 1, sender_phone_revealed = 1 WHERE (sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?)");
             $update->execute([$userId, $donorId, $donorId, $userId]);
