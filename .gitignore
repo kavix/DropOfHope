@@ -1,0 +1,47 @@
+# === Environment & Credentials ===
+.env
+.env.local
+.env.production
+*.env
+
+# === PHP / Composer ===
+vendor/
+composer.phar
+
+# === Uploads (user-generated content) ===
+uploads/
+*.log
+
+# === macOS ===
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# === Windows ===
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# === IDE & Editor Files ===
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# === PHPUnit ===
+.phpunit.result.cache
+.phpunit.cache/
+
+# === Temp / Build ===
+*.tmp
+*.bak
+*.orig

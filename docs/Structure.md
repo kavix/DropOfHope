@@ -11,8 +11,12 @@ DropOfHope/
 ├── contact_requester.php     # Respond to emergency requests
 ├── messages.php              # Inbox & sent messages
 ├── donation_history.php      # Track donations + eligibility checker
+├── forgot_password.php       # Password reset (name + email verification)
 ├── database.sql              # Full MySQL schema + demo data
-├── README.md                 # Setup instructions
+├── README.md                 # Setup instructions (repo landing page)
+├── .env.example              # Environment variable template
+├── LICENSE                   # MIT License
+├── .gitignore                # Git ignore rules
 ├── includes/
 │   ├── config.php            # DB connection, auth helpers, utilities
 │   ├── header.php            # Shared navbar + alerts
@@ -21,4 +25,7 @@ DropOfHope/
 │   └── style.css             # Complete responsive styling
 ├── js/
 │   └── main.js               # Modal, validation, AJAX helpers
-└── uploads/                  # For future file uploads
+└── docs/
+    ├── README.md             # Detailed file-by-file documentation
+    ├── Structure.md          # This file — directory tree
+    └── lifelink_schema.png   # Database schema diagram
