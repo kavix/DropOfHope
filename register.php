@@ -20,7 +20,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validation
     if (empty($fullName)) $errors[] = 'Full name is required.';
     if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Valid email is required.';
-    if (empty($phone)) $errors[] = 'Phone number is required.';
+if (empty($phone)) {
+    $errors[] = 'Phone number is required.';
+} elseif (!preg_match('/^07[0-9]{8}$/', $phone)) {
+    $errors[] = 'Phone number must start with 07 and be exactly 10 digits.';
+}
     if (strlen($password) < 6) $errors[] = 'Password must be at least 6 characters.';
     if ($password !== $confirmPassword) $errors[] = 'Passwords do not match.';
     if (empty($bloodType)) $errors[] = 'Blood type is required.';
