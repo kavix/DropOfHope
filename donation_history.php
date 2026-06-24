@@ -7,7 +7,7 @@ if (!isLoggedIn()) {
 
 $userId = $_SESSION['user_id'];
 
-// Get all donation history for this donor
+
 $stmt = $pdo->prepare("
     SELECT dh.*, er.requester_name, er.location as request_location
     FROM donation_history dh
@@ -18,7 +18,7 @@ $stmt = $pdo->prepare("
 $stmt->execute([$userId]);
 $donations = $stmt->fetchAll();
 
-// Get donor info for eligibility check
+
 $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
 $stmt->execute([$userId]);
 $donor = $stmt->fetch();
