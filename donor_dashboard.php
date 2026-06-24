@@ -7,26 +7,26 @@ if (!isLoggedIn() || !isDonor()) {
 
 $userId = $_SESSION['user_id'];
 
-// Get donor info
+
 $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
 $stmt->execute([$userId]);
 $donor = $stmt->fetch();
 
-// Get donation history
+
 $stmt = $pdo->prepare("SELECT * FROM donation_history WHERE donor_id = ? ORDER BY donation_date DESC");
 $stmt->execute([$userId]);
 $donations = $stmt->fetchAll();
 
-// Get unread messages count
+
 $stmt = $pdo->prepare("SELECT COUNT(*) FROM messages WHERE receiver_id = ? AND is_read = 0");
 $stmt->execute([$userId]);
 $unreadCount = $stmt->fetchColumn();
 
-// Check eligibility
+
 $eligibility = checkEligibility($donor['last_donation_date']);
 $daysUntilEligible = getDaysUntilEligible($donor['last_donation_date']);
 
-// Handle availability toggle
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_availability'])) {
     $newStatus = $donor['availability_status'] === 'available' ? 'unavailable' : 'available';
     $stmt = $pdo->prepare("UPDATE users SET availability_status = ? WHERE id = ?");
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_availability']
     redirect('donor_dashboard.php');
 }
 
-// Handle profile update
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
     $full_name = trim($_POST['full_name'] ?? '');
     $email = trim($_POST['email'] ?? '');
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
     $location = $_POST['location'] ?? '';
     $lastDonation = $_POST['last_donation_date'] ?? null;
     
-    // Check if email already exists for another user
+   
     $checkStmt = $pdo->prepare("SELECT id FROM users WHERE email = ? AND id != ?");
     $checkStmt->execute([$email, $userId]);
     if ($checkStmt->fetch()) {
@@ -52,7 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
         $stmt = $pdo->prepare("UPDATE users SET full_name = ?, email = ?, phone = ?, location = ?, last_donation_date = ? WHERE id = ?");
         $stmt->execute([$full_name, $email, $phone, $location, empty($lastDonation) ? null : $lastDonation, $userId]);
         
-        // Update session name if changed
+        
+    
         $_SESSION['user_name'] = $full_name;
         
         showAlert('Profile updated successfully!', 'success');
