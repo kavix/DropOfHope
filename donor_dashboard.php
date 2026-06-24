@@ -7,26 +7,24 @@ if (!isLoggedIn() || !isDonor()) {
 
 $userId = $_SESSION['user_id'];
 
-// Get donor info
+
 $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
 $stmt->execute([$userId]);
 $donor = $stmt->fetch();
 
-// Get donation history
 $stmt = $pdo->prepare("SELECT * FROM donation_history WHERE donor_id = ? ORDER BY donation_date DESC");
 $stmt->execute([$userId]);
 $donations = $stmt->fetchAll();
 
-// Get unread messages count
+
 $stmt = $pdo->prepare("SELECT COUNT(*) FROM messages WHERE receiver_id = ? AND is_read = 0");
 $stmt->execute([$userId]);
 $unreadCount = $stmt->fetchColumn();
 
-// Check eligibility
+
 $eligibility = checkEligibility($donor['last_donation_date']);
 $daysUntilEligible = getDaysUntilEligible($donor['last_donation_date']);
 
-// Handle availability toggle
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_availability'])) {
     $newStatus = $donor['availability_status'] === 'available' ? 'unavailable' : 'available';
     $stmt = $pdo->prepare("UPDATE users SET availability_status = ? WHERE id = ?");
@@ -35,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_availability']
     redirect('donor_dashboard.php');
 }
 
-// Handle profile update
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
     $phone = trim($_POST['phone'] ?? '');
     $location = $_POST['location'] ?? '';
