@@ -8,7 +8,17 @@ if (!isLoggedIn() || !isDonor()) {
 $userId = $_SESSION['user_id'];
 
 
-// Get donor info
+$stmt = $pdo->prepare("
+    SELECT dh.*, er.requester_name, er.location as request_location
+    FROM donation_history dh
+    LEFT JOIN emergency_requests er ON dh.request_id = er.id
+    WHERE dh.donor_id = ?
+    ORDER BY dh.donation_date DESC
+");
+$stmt->execute([$userId]);
+$donations = $stmt->fetchAll();
+
+
 $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
 $stmt->execute([$userId]);
 $donor = $stmt->fetch();
