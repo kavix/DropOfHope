@@ -25,6 +25,7 @@ $unreadCount = $stmt->fetchColumn();
 $eligibility = checkEligibility($donor['last_donation_date']);
 $daysUntilEligible = getDaysUntilEligible($donor['last_donation_date']);
 
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_availability'])) {
     $newStatus = $donor['availability_status'] === 'available' ? 'unavailable' : 'available';
     $stmt = $pdo->prepare("UPDATE users SET availability_status = ? WHERE id = ?");
@@ -35,14 +36,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_availability']
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
+    $full_name = trim($_POST['full_name'] ?? '');
+    $email = trim($_POST['email'] ?? '');
     $phone = trim($_POST['phone'] ?? '');
     $location = $_POST['location'] ?? '';
     $lastDonation = $_POST['last_donation_date'] ?? null;
     
-    $stmt = $pdo->prepare("UPDATE users SET phone = ?, location = ?, last_donation_date = ? WHERE id = ?");
-    $stmt->execute([$phone, $location, empty($lastDonation) ? null : $lastDonation, $userId]);
-    showAlert('Profile updated successfully!', 'success');
-    redirect('donor_dashboard.php');
+    $checkStmt = $pdo->prepare("SELECT id FROM users WHERE email = ? AND id != ?");
+    $checkStmt->execute([$email, $userId]);
+    if ($checkStmt->fetch()) {
+        showAlert('Email is already taken!', 'error');
+    } else {
+        $stmt = $pdo->prepare("UPDATE users SET full_name = ?, email = ?, phone = ?, location = ?, last_donation_date = ? WHERE id = ?");
+        $stmt->execute([$full_name, $email, $phone, $location, empty($lastDonation) ? null : $lastDonation, $userId]);
+        
+    
+        $_SESSION['user_name'] = $full_name;
+        
+        showAlert('Profile updated successfully!', 'success');
+        redirect('donor_dashboard.php');
+    }
 }
 
 $pageTitle = 'Donor Dashboard';
@@ -105,11 +118,11 @@ require_once 'includes/header.php';
             <div class="form-row">
                 <div class="form-group">
                     <label>Full Name</label>
-                    <input type="text" class="form-control" value="<?php echo sanitize($donor['full_name']); ?>" disabled>
+                    <input type="text" name="full_name" class="form-control" value="<?php echo sanitize($donor['full_name']); ?>" required>
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" class="form-control" value="<?php echo sanitize($donor['email']); ?>" disabled>
+                    <input type="email" name="email" class="form-control" value="<?php echo sanitize($donor['email']); ?>" required>
                 </div>
             </div>
             <div class="form-row">
@@ -140,12 +153,9 @@ require_once 'includes/header.php';
                         <span class="badge <?php echo $donor['availability_status'] == 'available' ? 'badge-success' : ($donor['availability_status'] == 'resting' ? 'badge-warning' : 'badge-danger'); ?>">
                             <?php echo ucfirst($donor['availability_status']); ?>
                         </span>
-                        <form method="POST" action="" style="display: inline;">
-                            <input type="hidden" name="toggle_availability" value="1">
-                            <button type="submit" class="btn btn-sm <?php echo $donor['availability_status'] == 'available' ? 'btn-danger' : 'btn-success'; ?>">
-                                <?php echo $donor['availability_status'] == 'available' ? 'Set Unavailable' : 'Set Available'; ?>
-                            </button>
-                        </form>
+                        <button type="submit" name="toggle_availability" value="1" class="btn btn-sm <?php echo $donor['availability_status'] == 'available' ? 'btn-danger' : 'btn-success'; ?>" formnovalidate>
+                            <?php echo $donor['availability_status'] == 'available' ? 'Set Unavailable' : 'Set Available'; ?>
+                        </button>
                     </div>
                 </div>
             </div>
