@@ -12,6 +12,7 @@ $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
 $stmt->execute([$userId]);
 $donor = $stmt->fetch();
 
+
 $stmt = $pdo->prepare("SELECT * FROM donation_history WHERE donor_id = ? ORDER BY donation_date DESC");
 $stmt->execute([$userId]);
 $donations = $stmt->fetchAll();
@@ -42,6 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
     $location = $_POST['location'] ?? '';
     $lastDonation = $_POST['last_donation_date'] ?? null;
     
+   
     $checkStmt = $pdo->prepare("SELECT id FROM users WHERE email = ? AND id != ?");
     $checkStmt->execute([$email, $userId]);
     if ($checkStmt->fetch()) {
@@ -49,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
     } else {
         $stmt = $pdo->prepare("UPDATE users SET full_name = ?, email = ?, phone = ?, location = ?, last_donation_date = ? WHERE id = ?");
         $stmt->execute([$full_name, $email, $phone, $location, empty($lastDonation) ? null : $lastDonation, $userId]);
+        
         
     
         $_SESSION['user_name'] = $full_name;
