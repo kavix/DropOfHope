@@ -7,10 +7,10 @@ if (!isLoggedIn() || !isDonor()) {
 
 $userId = $_SESSION['user_id'];
 
+
 $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
 $stmt->execute([$userId]);
 $donor = $stmt->fetch();
-
 
 $stmt = $pdo->prepare("SELECT * FROM donation_history WHERE donor_id = ? ORDER BY donation_date DESC");
 $stmt->execute([$userId]);
@@ -33,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_availability']
     showAlert('Availability status updated!', 'success');
     redirect('donor_dashboard.php');
 }
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
     $full_name = trim($_POST['full_name'] ?? '');
