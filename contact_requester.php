@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_message'])) {
     if (empty($message)) {
         showAlert('Please enter a message.', 'error');
     } else {
-        // රික්වෙස්ටර් කෙනෙක් කෙලින්ම User කෙනෙක් නෙවෙයි නම්, අපි මේක Admin (ID: 1) හරහා හෝ පද්ධතියේ සටහන් වෙන විදිහට සකසනවා
+        
         $stmt = $pdo->prepare("
             INSERT INTO messages (sender_id, receiver_id, request_id, message, sender_phone_revealed, is_phone_revealed)
             VALUES (?, 1, ?, ?, ?, ?)
