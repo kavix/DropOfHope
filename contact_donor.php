@@ -9,7 +9,7 @@ if (!isLoggedIn()) {
 $donorId = $_GET['donor_id'] ?? 0;
 $userId = $_SESSION['user_id'];
 
-// Get donor info
+
 $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ? AND user_type = 'donor' AND is_verified = 1");
 $stmt->execute([$donorId]);
 $donor = $stmt->fetch();
@@ -19,7 +19,7 @@ if (!$donor) {
     redirect('search_donors.php');
 }
 
-// Handle message submission
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_message'])) {
     $message = trim($_POST['message'] ?? '');
     $revealPhone = isset($_POST['reveal_phone']) ? 1 : 0;
