@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🩸 LifeLink — Blood Donation Network
+# 🩸 Drop Of Hopes — Blood Donation Network
 
 **Connecting blood donors with patients in need.**
 
